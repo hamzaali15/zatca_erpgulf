@@ -1456,41 +1456,42 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
                     )
                 )
         address = get_address(sales_invoice_doc, company_doc)
-        if not address.address_line1:
-            frappe.throw(
-                _(
-                    "As per ZATCA regulations, Address Line 1 is required in the company address."
+        if not sales_invoice_doc.custom_b2c:
+            if not address.address_line1:
+                frappe.throw(
+                    _(
+                        "As per ZATCA regulations, Address Line 1 is required in the company address."
+                    )
                 )
-            )
 
-        if not address.address_line2:
-            frappe.throw(
-                _(
-                    "As per ZATCA regulations, Address Line 2 is required in the company address."
+            if not address.address_line2:
+                frappe.throw(
+                    _(
+                        "As per ZATCA regulations, Address Line 2 is required in the company address."
+                    )
                 )
-            )
 
-        if (
-            not address.custom_building_number
-            or not address.custom_building_number.isdigit()
-            or len(address.custom_building_number) != 4
-        ):
-            frappe.throw(
-                _(
-                    "As per ZATCA regulations, Building Number must be exactly 4 digitsin company address."
+            if (
+                not address.custom_building_number
+                or not address.custom_building_number.isdigit()
+                or len(address.custom_building_number) != 4
+            ):
+                frappe.throw(
+                    _(
+                        "As per ZATCA regulations, Building Number must be exactly 4 digitsin company address."
+                    )
                 )
-            )
 
-        if (
-            not address.pincode
-            or not address.pincode.isdigit()
-            or len(address.pincode) != 5
-        ):
-            frappe.throw(
-                _(
-                    "As per ZATCA regulations, Pincode must be exactly 5 digits in company address."
+            if (
+                not address.pincode
+                or not address.pincode.isdigit()
+                or len(address.pincode) != 5
+            ):
+                frappe.throw(
+                    _(
+                        "As per ZATCA regulations, Pincode must be exactly 5 digits in company address."
+                    )
                 )
-            )
 
         customer_doc = frappe.get_doc("Customer", sales_invoice_doc.customer)
         if customer_doc.custom_b2c == 0:
